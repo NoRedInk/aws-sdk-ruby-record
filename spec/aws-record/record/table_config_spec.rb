@@ -50,6 +50,16 @@ module Aws
         end
       end
 
+      it 'accepts option to update capacity on migrate' do
+        cfg = TableConfig.define do |t|
+          t.model_class(TestModelWithGsi)
+          t.read_capacity_units(2)
+          t.write_capacity_units(2)
+          t.update_capacity_on_migrate(false)
+          t.client_options(stub_responses: true)
+        end
+      end
+
       describe "#migrate!" do
         it 'will attempt to create the remote table if it does not exist' do
           cfg = TableConfig.define do |t|
@@ -252,12 +262,12 @@ module Aws
                   ],
                   projection: {
                     projection_type: "INCLUDE",
-                    non_key_attributes: ['c', 'b', 'a'] 
+                    non_key_attributes: ['c', 'b', 'a']
                   },
                   provisioned_throughput: {
                     read_capacity_units: 1,
                     write_capacity_units: 1
-                  } 
+                  }
                 }
               ]
             )
@@ -339,12 +349,12 @@ module Aws
                     ],
                     projection: {
                       projection_type: "INCLUDE",
-                      non_key_attributes: ['c', 'b', 'a'] 
+                      non_key_attributes: ['c', 'b', 'a']
                     },
                     provisioned_throughput: {
                       read_capacity_units: 1,
                       write_capacity_units: 1
-                    } 
+                    }
                   }
                 }
               ]
@@ -434,12 +444,12 @@ module Aws
                     ],
                     projection: {
                       projection_type: "INCLUDE",
-                      non_key_attributes: ['c', 'b', 'a'] 
+                      non_key_attributes: ['c', 'b', 'a']
                     },
                     provisioned_throughput: {
                       read_capacity_units: 1,
                       write_capacity_units: 1
-                    } 
+                    }
                   }
                 }
               ]
@@ -526,7 +536,7 @@ module Aws
                     provisioned_throughput: {
                       read_capacity_units: 1,
                       write_capacity_units: 1
-                    } 
+                    }
                   }
                 }
               ]
@@ -624,7 +634,7 @@ module Aws
                     provisioned_throughput: {
                       read_capacity_units: 2,
                       write_capacity_units: 2
-                    } 
+                    }
                   }
                 }
               ]
@@ -745,7 +755,7 @@ module Aws
                     provisioned_throughput: {
                       read_capacity_units: 2,
                       write_capacity_units: 2
-                    } 
+                    }
                   }
                 },
                 {
@@ -1476,7 +1486,7 @@ module Aws
           )
           expect(cfg.exact_match?).to be_falsy
         end
-        
+
                 it 'returns false if a global secondary index is missing' do
           cfg = TableConfig.define do |t|
             t.model_class(TestModelWithGsi)

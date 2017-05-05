@@ -154,6 +154,11 @@ module Aws
       end
 
       # @api private
+      def update_capacity_on_migrate(update_capacity_on_migrate = true)
+        @update_capacity_on_migrate = update_capacity_on_migrate
+      end
+
+      # @api private
       def global_secondary_index(name, &block)
         gsi = GlobalSecondaryIndex.new
         gsi.instance_eval(&block)
@@ -268,7 +273,7 @@ module Aws
         opts[:attribute_definitions] = _attribute_definitions
         gsi = _global_secondary_indexes
         unless gsi.empty?
-          opts[:global_secondary_indexes] = gsi 
+          opts[:global_secondary_indexes] = gsi
         end
         opts
       end
